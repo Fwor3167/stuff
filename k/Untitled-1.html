@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisielec</title>
+
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        .wisielec, .haslo, #przyciski{
+            display: none;
+        }
+        .przycisk{
+            width: 5%;
+            height: 50px;
+        }
+        #litera{
+            width:3%;
+            border: 1px solid white;
+            float: left;
+            text-align: center;
+            font-size: 50px;
+            margin-left:33px;
+            margin-top: 5%;
+        }
+        #przyciski{
+            clear: both;
+            width: 50%;
+            height: 500px;
+            margin: auto;
+        }
+        #haslo{
+            margin: auto;
+            border: 2px solid;
+            height: 200px;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <button id="start">Start</button>
+        <section id="wisielec"></section>
+        <section id="haslo"></section>
+        <section id="przyciski"></section>
+    </main>
+
+    <script>
+        const hasla = ["HASSLO"];
+
+        start.addEventListener('click', (e) =>{
+            start.style.display="none";
+            przyciski.style.display="block";
+            wisielec.style.display="block";
+            haslo.style.display="block";
+            var l = hasla.length;
+            let rand = parseInt(Math.random() * 1000)%l;
+            let pass = hasla[rand];
+            let arr = Array.from(pass);
+            var l = arr.length;
+            let HP = 5;
+
+
+            genhaslo(l, arr);
+            genprzycisk(arr, l, HP);
+        })
+        function genhaslo(l, arr){
+            for(var i = 0; i<l;i++){
+                let literka = document.createElement("div");
+                literka.id="litera";
+                literka.innerHTML="_";
+                literka.className = arr[i];
+                
+                
+                haslo.appendChild(literka);
+            } 
+        }
+
+        function genprzycisk(arr, l, HP){
+            let w = l;
+            for(var i = 65; i<=90;i++){
+                let btn = document.createElement("button");
+                btn.className = "przycisk";
+                btn.innerHTML = String.fromCharCode(i);
+                btn.style.backgroundColor="yellow";
+                btn.addEventListener('click', (e) =>{
+                    btn.style.backgroundColor="grey";
+                    btn.disabled="true";
+                    var m = true;
+                    for(let j = 0; j<l; j++){
+                        console.log(j);
+                        if(btn.innerHTML == arr[j]){
+                            m = false; 
+                            console.log(btn.innerHTML);
+                            let lit = document.querySelectorAll("."+arr[j]);
+                            btn.style.backgroundColor="blue";
+                            c = lit.length;
+                            while(c){
+                                lit[c-1].innerHTML = arr[j];
+                                c--;
+                            }
+                            w--;
+                        }
+            
+                        if(w==0){
+                            wisielec.innerHTML = "Wygrano!";
+                        }
+                    }
+                    if(m==true){
+                        HP--;
+                        if(HP == 0){
+                            wisielec.innerHTML="Przegrano!";
+                            var btns = document.querySelectorAll(".przycisk");
+                            var o = btns.length;
+                            while (o){
+                                btns[o-1].disabled="true";
+
+                                o--;
+                            }
+                        }
+                        m=false;
+                    } 
+
+                })
+
+                przyciski.appendChild(btn);
+                }
+        } 
+    </script>
+</body>
+</html>
